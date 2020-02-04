@@ -1,11 +1,24 @@
 import React from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text } from 'react-native';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, Button } from 'react-native';
 import Constants from 'expo-constants';
+import axios from 'axios'
+
+async function deleteClick(id){
+  console.log("id = "+id)
+  const response = await axios.delete("http://165.22.96.229:8080/api/category/" + id)
+  if(response.status === 200){
+
+  }
+}
 
 function Item({ item }) {
   return (
     <View style={ styles.item }>
       <Text style={ styles.title }>{ item.name } : { item.detail }</Text>
+      <Button
+        title="Del"
+        onPress={() => deleteClick(item.id)}
+      />
     </View>
   );
 }

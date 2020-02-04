@@ -1,5 +1,7 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
+import ShowData from "./ShowData";
+import axios from 'axios';
 
 export default class ProfileScreen extends React.Component {
 
@@ -7,9 +9,33 @@ export default class ProfileScreen extends React.Component {
     title: 'Profile',
   };
 
+  state = {
+    category: []
+  }
+
+  componentDidMount() {
+    this.findAllCategory()
+  }
+
+  async findAllCategory(){
+    const response = await axios.get("http://165.22.96.229:8080/api/category")
+    console.log(response.data)
+    if(response.status === 200){
+      console.log("IF")
+      this.setState({
+        category: response.data
+      })
+    }
+
+
+  }
+
   render() {
     return (
-      <Text>Profile</Text>
+      <SafeAreaView style={styles.container}>
+        <Text>Profile</Text>
+        <ShowData data={ this.state.category } />
+      </SafeAreaView>
     )
   }
 }
